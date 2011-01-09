@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-requrie 'rubygems'
+require 'rubygems'
 require 'pg'
 require 'optparse'
 require 'timeout'

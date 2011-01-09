@@ -1,8 +1,0 @@
-.autotest
-History.txt
-Manifest.txt
-README.txt
-Rakefile
-bin/check_slony
-lib/check_slony.rb
-test/test_check_slony.rb
