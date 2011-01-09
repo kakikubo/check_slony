@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'hoe'
+require 'pg'
 
 # Hoe.plugin :compiler
 # Hoe.plugin :cucumberfeatures
