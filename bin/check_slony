@@ -4,15 +4,19 @@ require 'rubygems'
 require 'pg'
 require 'optparse'
 require 'timeout'
+require 'ruby-debug'
 
 
 pgoptions=''
 pgtty=''
 @result=''
 @problems = 0 
+@event   = 10
+@lagtime = 20
 @timeout = 10
 
 OptionParser.new do |opt|
+
   opt.on("-H","--host=DBHOSTNAME", String, "Specify the DBHOSTNAME"){|h| @hostname = h }
   opt.on("-P","--port=PORTNUMBER", Integer, "Specify the DB port number"){|p| @port = p }
   opt.on("-u","--username=DBUSER", String, "Specify the DB user name"){|u| @user = u }
@@ -22,7 +26,7 @@ OptionParser.new do |opt|
   opt.on("-e","--events=EVENTS", Integer, "Specify the Event Counts"){|e| @event = e }
   opt.on("-l","--lagtime=LAGTIME", Integer, "Specify the LAGTIME"){|l| @lagtime = l }
   opt.on("-t","--timeout=TIMEOUT", Integer, "Specify the TIMEOUT"){|t| @timeout = t }
-
+  
   begin
     opt.parse!(ARGV)
   rescue OptionParser::ParseError => err
@@ -31,7 +35,7 @@ OptionParser.new do |opt|
   end
 end
 
-begin 
+begin
   timeout(@timeout){
     # sleep 3 # for debug
     con = PGconn.new(@hostname, @port, pgoptions, pgtty, @dbname, @user, @password) 
@@ -52,14 +56,14 @@ begin
 
       @result += "SUBSCRIBER " + node  + " ON ORIGIN " + master + " : EVENT LAG=" +  lag
       if (lag.to_i > 0) && (@event < lag.to_i)
-      	 @result = @result + " (BEHIND " + (lag.to_i - @event).to_s + ") ";
-      	 @problems += 1
+        @result = @result + " (BEHIND " + (lag.to_i - @event).to_s + ") ";
+        @problems += 1
       end
       @result = @result + " TIME LAG=" + round + "s";
       
       if (@lagtime > 0) && (@lagtime < round.to_i)
-	 @result = @result + " (BEHIND " + (round.to_i - @lagtime).to_s + "s) ";
-	 @problems += 1
+        @result = @result + " (BEHIND " + (round.to_i - @lagtime).to_s + "s) ";
+        @problems += 1
       end
       @result = @result + " || ";
 
@@ -86,6 +90,9 @@ rescue => ex
   print "POSTGRES_REPLICATION_LAG UNKNOWN: #{ex.message}";
   exit 3
 end
+
+
+
 
 exit;
 abort "you need to write me"
