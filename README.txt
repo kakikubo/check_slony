@@ -1,6 +1,6 @@
 = check_slony
 
-http://rubyforge.org/projects/checkslony/
+* https://github.com/kakikubo/check_slony
 
 == DESCRIPTION:
 
@@ -25,12 +25,13 @@ pg
 
 == DEVELOPERS:
 
+kakikubo
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2011 FIX
+Copyright (c) 2011 kakikubo
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
