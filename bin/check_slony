@@ -49,14 +49,12 @@ def countcheck_all_tables(options, tty)
     sl_table << r["tab_relname"]
   end
   # 
-  query = 'SELECT pa_server, pa_conninfo from "_' + @cluster + '".sl_path order by pa_server'
+  query = 'SELECT distinct pa_server, pa_conninfo from "_' + @cluster + '".sl_path order by pa_server'
   res = con.exec(query)
   @pg_hash = {}
   res.each do |r|
     info_hash = {}
     r["pa_conninfo"].split(" ").each do |info|
-#       puts "******"
-#       puts info.split("=")[0] + '=' + info.split("=")[1] 
       info_hash[info.split("=")[0]] = info.split("=")[1] 
     end
     @pg_hash[r["pa_server"]] = info_hash
