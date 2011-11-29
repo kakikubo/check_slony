@@ -106,7 +106,7 @@ def countcheck_all_tables(options, tty)
       state = "OK"
       @pg_hash.each{ |k,v|
         temp_array << v[t][0]
-        state = "NG" unless v[t][1] 
+        state = "NG" if v[t][1] 
       }
       temp_array << state
       puts fmt % temp_array 
