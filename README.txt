@@ -14,6 +14,7 @@ This is an check plugin for Nagios.
  % check_slony.rb -d slonydb -c replication -e 10 -l 10
  POSTGRES_REPLICATION_LAG OK: SUBSCRIBER 1 ON ORIGIN 2 : EVENT LAG=0 TIME LAG=8s || 
 
+
 == REQUIREMENTS:
 
 pg
