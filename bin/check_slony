@@ -81,7 +81,7 @@ def countcheck_all_tables(options, tty)
       if @master[t] != info[t][0]
         info[t][1] = true
         result_hash["status"] = "NG"
-        error_str += "node #{node} #{t}"
+        error_str += " node #{node} #{t} "
       end
     end
     con.close
@@ -103,10 +103,12 @@ def countcheck_all_tables(options, tty)
     puts '-' * ((@pg_hash.count * 15) + 60)
     sl_table.each do |t|
       temp_array = [t, @master[t]]
+      state = "OK"
       @pg_hash.each{ |k,v|
         temp_array << v[t][0]
-        temp_array << (v[t][1] ? "NG" : "OK")
+        state = "NG" unless v[t][1] 
       }
+      temp_array << state
       puts fmt % temp_array 
     end
   end
